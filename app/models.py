@@ -8,3 +8,14 @@ class OperacaoDoisNumeros(BaseModel):
 class OperacaoRaiz(BaseModel):
     numero:float
     indice:float = 2
+
+class Usuario(BaseModel):
+    username: str
+    password: str
+    name: str = None
+    email: str = None
+    phone: str = None
+
+class UsuarioLogin(BaseModel):
+    username: str
+    password: str
