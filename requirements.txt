@@ -4,3 +4,4 @@ fastapi
 uvicorn
 pymongo
 passlib[bcrypt]
+python-jose[cryptography]
