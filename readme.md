@@ -1,6 +1,7 @@
 # readme.md
+```
 calculadorav6/
-|--app/
+| --app/
 |  | --__init__.py
 |  | --main.py
 |  | --config.py
@@ -13,3 +14,4 @@ calculadorav6/
 |  |   | -- usuarios.py
 |--requirements.txt
 |--readme.md
+```
