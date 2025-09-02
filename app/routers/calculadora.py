@@ -1,13 +1,17 @@
 # app/routers/calculadora.py
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from ..models import OperacaoDoisNumeros, OperacaoRaiz
 import math
+from ..auth import get_usuario_atual
 
 router = APIRouter(prefix="/calc", tags=["Calculadora"])
 
 @router.get("/somar")
-def somar(a:float, b:float):
+def somar(a:float, b:float, usuario=Depends(get_usuario_atual)):
+    """
+    Destinado para execução da soma em modo GET
+    """
     return {"resultado": a+b} 
 
 @router.post("/subtrair")
