@@ -48,13 +48,8 @@ async def get_usuario_atual(token: str):
         username: str = payload.get("sub")
         if username is None:
             raise credenciais_exception
-    except JWTError as e:
+    except JWTError:
         raise credenciais_exception
-        #raise HTTPException(
-        #    status_code=401,
-        #    detail=str(e),
-        #    headers={"WWW-Authenticate":"Bearer"}
-        #)
 
     usuario = get_usuario(username)
     if usuario is None:
