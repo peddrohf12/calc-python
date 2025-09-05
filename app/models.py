@@ -19,3 +19,10 @@ class Usuario(BaseModel):
 class UsuarioLogin(BaseModel):
     username: str
     password: str
+
+class UsuarioCadastro(BaseModel):
+    username: str
+    password: str
+    cep: str
+    numero: str
+    complemento: str
