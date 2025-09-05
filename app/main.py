@@ -3,7 +3,7 @@
 # GET http://localhost:8000
 
 from fastapi import FastAPI
-from .routers import calculadora, usuarios
+from .routers import calculadora, usuarios, viacep
 
 app = FastAPI(title="Calculadora Modularizada", 
               description="Minha Calculadora", 
@@ -11,3 +11,4 @@ app = FastAPI(title="Calculadora Modularizada",
 
 app.include_router(calculadora.router)
 app.include_router(usuarios.router)
+app.include_router(viacep.router)
