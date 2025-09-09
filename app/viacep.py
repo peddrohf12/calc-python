@@ -1,4 +1,6 @@
 # app/viacep.py
+from fastapi import HTTPException
+
 import requests
 
 def buscar_cep(cep: str):
