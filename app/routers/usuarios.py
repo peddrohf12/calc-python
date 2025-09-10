@@ -14,6 +14,7 @@ router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 def test():
     return {"mensagem": "OK, tudo certo!"}
 
+
 @router.post("/registro")
 def registrar(usuariox: UsuarioCadastro):
 #def registrar(usuariox: UsuarioCadastro, usuario=Depends(get_usuario_atual)):
@@ -52,3 +53,15 @@ def logar(usuario: UsuarioLogin):
     )
 
     return {"token": access_token, "expires": timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)} 
+
+@router.get("/")
+def listar_usuarios():
+    lista = []
+    for usuario in usuarios.find({}, {"password":0}): 
+
+        usuario["_id"] = str(usuario["_id"])
+
+        lista.append(usuario)
+
+    return lista
+    
