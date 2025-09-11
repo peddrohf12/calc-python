@@ -103,4 +103,22 @@ def atualizar_usuario(user_id: str, dados: dict = Body(...)):
     return {"mensagem": "Usuário atualizado com sucesso!"}
 
 
+@router.delete("/{user_id}")
+def deletar_usuario(user_id: str, usuario_atual=Depends(get_usuario_atual)):
+    try:
+        obj_id = ObjectId(user_id)
+    except:
+        raise HTTPException(status_code=400, detail="ID inválido")
+
+    usuario = usuarios.find_one({"_id": obj_id})
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+    # regra: usuário logado não pode deletar a si mesmo
+    if usuario["username"] == usuario_atual["username"]:
+        raise HTTPException(status_code=403, detail="Você não pode deletar a si mesmo")
+
+    usuarios.delete_one({"_id": obj_id})
+
+    return {"mensagem": "Usuário deletado com sucesso!"}
 
