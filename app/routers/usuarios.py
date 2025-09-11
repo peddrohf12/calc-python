@@ -54,53 +54,15 @@ def logar(usuario: UsuarioLogin):
         expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     )
 
-    return {
-        "token": access_token,
-        "token_type": "bearer",
-        "expires_in": ACCESS_TOKEN_EXPIRE_MINUTES * 60 
-    }
-
+    return {"token": access_token, "expires": timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)} 
 
 @router.get("/")
 def listar_usuarios():
     lista = []
-    for usuario in usuarios.find({}, {"password": 0}):  
-        usuario["_id"] = str(usuario["_id"])  
+    for usuario in usuarios.find({}, {"password":0}): 
+
+        usuario["_id"] = str(usuario["_id"])
+
         lista.append(usuario)
     return lista
-
-
-
-@router.put("/{user_id}")
-def atualizar_usuario(user_id: str, dados: dict = Body(...)):
-    if "username" in dados:
-        raise HTTPException(status_code=400, detail="Não é permitido alterar o username")
-
-    if "password" in dados:
-        dados["password"] = gerar_hash(dados["password"])
-
-    if "cep" in dados:
-        dadosCep = buscar_cep(dados["cep"])
-        if not dadosCep or "erro" in dadosCep:
-            raise HTTPException(status_code=400, detail="CEP inválido")
-        dados.update({
-            "logradouro": dadosCep.get("logradouro", ""),
-            "bairro": dadosCep.get("bairro", ""),
-            "localidade": dadosCep.get("localidade", ""),
-            "uf": dadosCep.get("uf", "")
-        })
-
-    try:
-        obj_id = ObjectId(user_id)
-    except:
-        raise HTTPException(status_code=400, detail="ID inválido")
-
-    resultado = usuarios.update_one({"_id": obj_id}, {"$set": dados})
-
-    if resultado.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Usuário não encontrado")
-
-    return {"mensagem": "Usuário atualizado com sucesso!"}
-
-
-
+    
